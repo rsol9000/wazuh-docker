@@ -25,7 +25,7 @@ Incluye base de datos optimizada, servidor, interfaz web, SNMP traps y agente2 l
 
 | Puerto    | Protocolo | Uso                      |
 | --------- | --------- | ------------------------ |
-| **8080**  | TCP       | Interfaz Web (HTTP)      |
+| **80**    | TCP       | Interfaz Web (HTTP)      |
 | **4443**  | TCP       | Interfaz Web (HTTPS)     |
 | **10051** | TCP       | Server ↔ Agentes activos |
 | **162**   | UDP       | Recepción de SNMP traps  |
