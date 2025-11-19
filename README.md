@@ -1,4 +1,4 @@
-# **Zabbix Monitoring Stack – Docker Compose**
+# **Wazuh Monitoring Stack – Docker Compose**
 
 ![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=for-the-badge&logo=docker)
 ![Zabbix](https://img.shields.io/badge/Zabbix-7.4.6-D50000?style=for-the-badge)
