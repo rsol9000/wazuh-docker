@@ -1,6 +1,6 @@
 # Docker
 .env
-data/
+#data/
 *.log
 
 # Editor
@@ -8,4 +8,4 @@ data/
 .idea/
 
 # Certificados para https
-#data/dashboard/certificados/*
+data/dashboard/certificados/*
