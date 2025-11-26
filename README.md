@@ -1,23 +1,22 @@
 # **Wazuh Monitoring Stack – Docker Compose**
 
 ![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=for-the-badge&logo=docker)
-![Zabbix](https://img.shields.io/badge/Zabbix-7.4.6-D50000?style=for-the-badge)
+![Zabbix](https://img.shields.io/badge/Wazuh-4.14-D50000?style=for-the-badge)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-17.6-336791?style=for-the-badge&logo=postgresql)
 
-Stack completo y modular para desplegar **Zabbix 7.4** en entornos de producción utilizando **Docker Compose**.
-Incluye base de datos optimizada, servidor, interfaz web, SNMP traps y agente2 local.
+Stack completo y modular para desplegar **Wazuh 4.14** en entornos de producción utilizando **Docker Compose**.
+Incluye base de datos, servidor, interfaz web.
 
 ---
 
 # 📦 **Arquitectura del Stack**
 
-| Componente             | Versión | Descripción                             |
-| ---------------------- | ------- | --------------------------------------- |
-| **PostgreSQL**         | 17.6    | Base de datos principal de Zabbix       |
-| **Zabbix Server**      | 7.4.6   | Motor central de monitoreo              |
-| **Zabbix Web**         | 7.4.6   | Interfaz gráfica (Nginx + PHP-FPM)      |
-| **Zabbix Agent2**      | 7.4.3   | Agente avanzado para monitoreo del host |
-| **SNMP Trap Receiver** | 7.4.6   | Receptor de traps SNMP puerto 162       |
+| Componente          | Versión | Descripción                             |
+| ------------------- | ------- | --------------------------------------- |
+| **Wazuh Indexer**   | 4.14.1  | Base de datos de Wazuh                  |
+| **Wazuh Manager**   | 4.14.1  | Servidor principal                      |
+| **Wazuh Dashborad** | 4.14.1  | Interfaz gráfica                        |
+| **Wazuh Agent**     | 4.14.1  | Agente avanzado para monitoreo del host |
 
 ---
 
@@ -25,22 +24,33 @@ Incluye base de datos optimizada, servidor, interfaz web, SNMP traps y agente2 l
 
 | Puerto    | Protocolo | Uso                      |
 | --------- | --------- | ------------------------ |
-| **80**    | TCP       | Interfaz Web (HTTP)      |
-| **4443**  | TCP       | Interfaz Web (HTTPS)     |
-| **10051** | TCP       | Server ↔ Agentes activos |
-| **162**   | UDP       | Recepción de SNMP traps  |
+| **1514**  | TCP       | Interfaz Web (HTTP)      |
+| **1515**  | TCP       | Server ↔ Agentes activos |
+| **514**   | UDP       | Interfaz Web (HTTPS)     |
+| **55000** | TCP       | Wazuh server API         |
+| **9200**  | TCP       | Wazuh indexer API        |
+| **443**   | TCP       | Interfaz Web (HTTP)      |
 
 ---
 
 # 💾 **Volúmenes Persistentes**
 
-| Volumen                   | Contenedor    | Uso                          |
-| ------------------------- | ------------- | ---------------------------- |
-| `zabbix-postgresdb`       | PostgreSQL    | Base de datos Zabbix         |
-| `zabbix-server`           | Zabbix Server | Configuración y runtime      |
-| `zabbix-snmptraps`        | Zabbix Server | Almacenamiento de traps SNMP |
-| `zabbix_dashboard_config` | Zabbix Web    | Configuración del frontend   |
-| `zabbix_certificados`     | Zabbix Web    | Certificados SSL/TLS         |
+| Volumen                   | Contenedor      | Uso                          |
+| ------------------------- | --------------- | ---------------------------- |
+| `wazuh_api_configuration` | Wazuh Manager   | Base de datos Wazuh          |
+| `wazuh_etc`               | Wazuh Manager   | Configuración y runtime      |
+| `wazuh_logs`              | Wazuh Manager   | Almacenamiento de traps SNMP |
+| `wazuh_queue`             | Wazuh Manager   | Configuración del frontend   |
+| `wazuh_var_multigroups`   | Wazuh Manager   | Configuración del frontend   |
+| `wazuh_integrations`      | Wazuh Manager   | Certificados SSL/TLS         |
+| `wazuh_active_response`   | Wazuh Manager   | Certificados SSL/TLS         |
+| `wazuh_agentless`         | Wazuh Manager   | Certificados SSL/TLS         |
+| `wazuh_wodles`            | Wazuh Manager   | Certificados SSL/TLS         |
+| `filebeat_etc`            | Wazuh Manager   | Certificados SSL/TLS         |
+| `filebeat_var`            | Wazuh Manager   | Certificados SSL/TLS         |
+| `wazuh-indexer-data`      | Wazuh Indexer   | Base de datos Wazuh          |
+| `wazuh-dashboard-config`  | Wazuh Dashboard | Certificados SSL/TLS         |
+| `wazuh-dashboard-custom`  | Wazuh Dashboard | Certificados SSL/TLS         |
 
 Todos los volúmenes persisten automáticamente entre reinicios.
 
