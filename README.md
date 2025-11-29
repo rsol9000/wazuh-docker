@@ -22,14 +22,14 @@ Incluye base de datos, servidor, interfaz web.
 
 # 🔌 **Mapa de Puertos**
 
-| Puerto    | Protocolo | Uso                 |
-| --------- | --------- | ------------------- |
-| **1514**  | TCP       | Agents → Server     |
-| **1515**  | TCP       | Server ← Agents     |
-| **514**   | UDP       | Syslog              |
-| **55000** | TCP       | Wazuh server API    |
-| **9200**  | TCP       | Wazuh indexer API   |
-| **443**   | TCP       | Interfaz Web (HTTP) |
+| Puerto    | Protocolo | Uso                                 |
+| --------- | --------- | ----------------------------------- |
+| **1514**  | TCP       | Agents ↔ Server                     |
+| **1515**  | TCP       | Registro y Autenticación de Agentes |
+| **514**   | UDP       | Syslog                              |
+| **55000** | TCP       | Wazuh server API                    |
+| **9200**  | TCP       | Wazuh indexer API                   |
+| **443**   | TCP       | Interfaz Web (HTTP)                 |
 
 ---
 
