@@ -6,13 +6,14 @@ services:
     image: wazuh/wazuh-manager:4.14.1
     hostname: wazuh.manager
     restart: always
-    resources:
-      limits:
-        memory: 1.5G
-        cpus: "1.5"
-      reservations:
-        memory: 512M
-        cpus: "1.0"
+    deploy:
+      resources:
+        limits:
+          memory: 1.5G
+          cpus: "1.5"
+        reservations:
+          memory: 512M
+          cpus: "1.0"
     ulimits:
       memlock:
         soft: 2147483648 # 2 GB
@@ -63,13 +64,14 @@ services:
     environment:
       - "OPENSEARCH_JAVA_OPTS=-Xms1g -Xmx1g"
       - OPENSEARCH_INITIAL_ADMIN_PASSWORD=${INDEXER_PASSWORD}
-    resources:
-      limits:
-        memory: 2G
-        cpus: "2"
-      reservations:
-        memory: 1G
-        cpus: "1.5"
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: "2"
+        reservations:
+          memory: 1G
+          cpus: "1.5"
     ulimits:
       memlock:
         soft: 2147483648 # 2 GB 2147483648
@@ -94,13 +96,14 @@ services:
     image: wazuh/wazuh-dashboard:4.14.1
     hostname: wazuh.dashboard
     restart: always
-    resources:
-      limits:
-        memory: 1G
-        cpus: "1.0"
-      reservations:
-        memory: 512M
-        cpus: "0.5"
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: "1.0"
+        reservations:
+          memory: 512M
+          cpus: "0.5"
     ports:
       - 5601:5601
     environment:
@@ -130,15 +133,23 @@ services:
       - ${NETWORK}
     image: nginx:alpine
     restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: "1.0"
+        reservations:
+          memory: 512M
+          cpus: "0.5"
     ports:
       - "80:80"
       - "443:443"
     volumes:
-      - ./nginx/security:/etc/nginx/security
-      - ./wazuh-nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./wazuh-nginx/nginx/security:/etc/nginx/security
+      - ./wazuh-nginx/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./wazuh-nginx/nginx/sites:/etc/nginx/conf.d
       #  - ./wazuh-nginx/ssl:/etc/nginx/ssl
-      - ${CERTS_VOLUMEN}:/etc/nginx/ssl
+      - wazuh_https_certs:/etc/nginx/ssl
       - wazuh_logs:/var/log/nginx
     depends_on:
       - wazuh.dashboard
@@ -160,3 +171,14 @@ volumes:
   wazuh-indexer-data:
   wazuh-dashboard-config:
   wazuh-dashboard-custom:
+  wazuh_https_certs:
+############################
+# RED
+############################
+networks:
+  net_00:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: ${SUBNET}
+          gateway: ${GATEWAY}
