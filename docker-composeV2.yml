@@ -131,7 +131,7 @@ services:
   wazuh.nginx:
     networks:
       - ${NETWORK}
-    image: nginx:alpine
+    image: ${IMAGE}
     restart: always
     deploy:
       resources:
@@ -145,16 +145,16 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ${PROJECT_ROOT}/wazuh-nginx/nginx/security:/etc/nginx/security
-      - ${PROJECT_ROOT}/wazuh-nginx/nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ${PROJECT_ROOT}/wazuh-nginx/nginx/sites:/etc/nginx/conf.d
+      - ${PROJECT_ROOT}/wazuh-nginx/nginx/security:/etc/nginx/security:ro
+      - ${PROJECT_ROOT}/wazuh-nginx/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ${PROJECT_ROOT}/wazuh-nginx/nginx/sites:/etc/nginx/conf.d:ro
       #  - ./wazuh-nginx/ssl:/etc/nginx/ssl
       - wazuh_https_certs:/etc/nginx/ssl:ro
       - wazuh_logs:/var/log/nginx
-    depends_on:
-      - wazuh.dashboard
-      - wazuh.manager
-      - wazuh.indexer
+    #depends_on:
+    #  - wazuh.dashboard
+    #  - wazuh.manager
+    #  - wazuh.indexer
 
 volumes:
   wazuh_api_configuration:
