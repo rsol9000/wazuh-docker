@@ -29,7 +29,7 @@ Incluye base de datos, servidor, interfaz web.
 | **514**   | UDP       | Syslog                              |
 | **55000** | TCP       | Wazuh server API                    |
 | **9200**  | TCP       | Wazuh indexer API                   |
-| **443**   | TCP       | Interfaz Web (HTTP)                 |
+| **7443**   | TCP       | Interfaz Web (HTTP)                 |
 
 ---
 
@@ -62,45 +62,52 @@ Todos los volúmenes persisten automáticamente entre reinicios.
 
 - **Docker Engine 20.10+**
 - **Docker Compose 2.0+**
-- **Puertos 8080/4443/10051/162 disponibles**
+- **Puertos 1514/1515/514/55000/9200/7443 disponibles**
 
 ---
 
 ## **2. Descargar o Clonar el repositorio**
 
-````bash
-wget https://github.com/rsol9000/zabbix-docker/archive/main.zip -O zabbix-stack.zip
-cd zabbix-stack
-
 ```bash
-git clone <repository-url>
+git clone https://github.com/rsol9000/wazuh-docker.git
 cd zabbix-stack
 ````
-
 ---
-
-## **3. Configurar variables de entorno**
+## **3. Generar los certificados auto-firmados para la comunicación entre contenedores de los 3 componentes de Wazuh**
 
 ```bash
-cp .env.pub .env
+docker compose -f generate-indexer-certs.yml run --rm generator
+````
+- **Los certificados se generan en ./config/wazuh_indexer_ssl_certs/**
+---
+## **4. Configurar variables de entorno**
+
+```bash
 nano .env
 ```
 
 ### **Variables críticas**
 
 ```env
-POSTGRES_USER=zabbix_admin
-POSTGRES_PASSWORD=super_secure_password
+NO HAY
 ```
 
 ### **Variables opcionales**
 
 ```env
-ZBX_SERVER_HOST=zabbix-server
-ZBX_SERVER_NAME=Zabbix Monitoring
-ZBX_TIMEZONE=America/Costa_Rica
+NGINX_IMAGE=nginx:1.29.3-alpine
+PROJECT_ROOT=.
+NETWORK=net_00
+SUBNET=10.60.60.0/24
+GATEWAY=10.60.60.1
+INDEXER_USERNAME=admin
+INDEXER_PASSWORD=SecretPassword
+API_USERNAME=wazuh-wui
+API_PASSWORD=MyS3cr37P450r.*-
+DASHBOARD_USERNAME=kibanaserver
+DASHBOARD_PASSWORD=kibanaserver
+CERTS_VOLUMEN=zabbix-stack00_zabbix_certificados
 ```
-
 ---
 
 # ▶️ **Despliegue**
@@ -108,6 +115,7 @@ ZBX_TIMEZONE=America/Costa_Rica
 ```bash
 docker-compose up -d
 ```
+---
 
 Comprobar estado:
 
@@ -118,7 +126,7 @@ docker-compose ps
 Logs del servidor:
 
 ```bash
-docker-compose logs -f zabbix-server
+docker-compose logs -f wazuh.manager
 ```
 
 ---
@@ -127,8 +135,7 @@ docker-compose logs -f zabbix-server
 
 | Protocolo | URL                          |
 | --------- | ---------------------------- |
-| **HTTP**  | `http://<IP-SERVIDOR>:8080`  |
-| **HTTPS** | `https://<IP-SERVIDOR>:4443` |
+| **HTTPS** | `https://<IP-SERVIDOR>:7443` |
 
 ---
 

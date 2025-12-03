@@ -97,7 +97,7 @@ services:
           memory: 512M
           cpus: "0.5"
     ports:
-      - 7443:5601
+      - 6443:5601
     environment:
       - INDEXER_USERNAME=${INDEXER_USERNAME}
       - INDEXER_PASSWORD=${INDEXER_PASSWORD}
@@ -121,9 +121,7 @@ services:
       - wazuh.manager:wazuh.manager
 
   # wazuh.nginx:
-  #   networks:
-  #     - ${NETWORK}
-  #   image: ${IMAGE}
+  #   image: ${NGINX_IMAGE}
   #   restart: always
   #   deploy:
   #     resources:
