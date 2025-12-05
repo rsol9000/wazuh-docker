@@ -1,4 +1,4 @@
-## Wazuh App Copyright (C) 2017, Wazuh Inc. (License GPLv2)
+# Wazuh App Copyright (C) 2017, Wazuh Inc. (License GPLv2)
 services:
   wazuh.manager:
     image: wazuh/wazuh-manager:4.14.1
@@ -120,32 +120,60 @@ services:
       - wazuh.indexer:wazuh.indexer
       - wazuh.manager:wazuh.manager
 
-  # wazuh.nginx:
-  #   image: ${NGINX_IMAGE}
-  #   restart: always
-  #   deploy:
-  #     resources:
-  #       limits:
-  #         memory: 1G
-  #         cpus: "1.0"
-  #       reservations:
-  #         memory: 512M
-  #         cpus: "0.5"
-  #   ports:
-  #     - "80:80"
-  #     - "443:443"
-  #   volumes:
-  #     - ${PROJECT_ROOT}/wazuh-nginx/nginx/security:/etc/nginx/security:ro
-  #     - ${PROJECT_ROOT}/wazuh-nginx/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-  #     - ${PROJECT_ROOT}/wazuh-nginx/nginx/sites:/etc/nginx/conf.d:ro
-  #     #  - ./wazuh-nginx/ssl:/etc/nginx/ssl
-  #     - wazuh_https_certs:/etc/nginx/ssl:ro
-  #     - wazuh_logs:/var/log/nginx
-  #   #depends_on:
-  #   #  - wazuh.dashboard
-  #   #  - wazuh.manager
-  #   #  - wazuh.indexer
-#
+  #wazuh.nginx:
+  #  image: ${NGINX_IMAGE}
+  #  restart: always
+  #  deploy:
+  #    resources:
+  #      limits:
+  #        memory: 1G
+  #        cpus: "1.0"
+  #      reservations:
+  #        memory: 512M
+  #        cpus: "0.5"
+  #  ports:
+  #    - "80:80"
+  #    - "7443:443"
+  #  volumes:
+  #    - ${PROJECT_ROOT}/wazuh-nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+  #    - ${PROJECT_ROOT}/wazuh-nginx/conf.d:/etc/nginx/conf.d:ro
+  #    #  - ./wazuh-nginx/ssl:/etc/nginx/ssl
+  #    - wazuh_https_certs:/etc/nginx/ssl:ro
+  #    - wazuh_logs:/var/log/nginx
+  #  #depends_on:
+  #  #  - wazuh.dashboard
+  #  #  - wazuh.manager
+  #  #  - wazuh.indexer
+
+  #wazuh.agent:
+  #  image: wazuh/wazuh-agent:4.14.1
+  #  restart: always
+  #  deploy:
+  #    resources:
+  #      limits:
+  #        memory: 1G
+  #        cpus: "2.0"
+  #      reservations:
+  #        memory: 512M
+  #        cpus: "1.0"
+  #  environment:
+  #    - WAZUH_MANAGER_SERVER=wazuh.manager
+  #    - WAZUH_AGENT_NAME=docker-host
+  #    - WAZUH_MANAGER_SERVER_PORT=1514
+  #    - WAZUH_HOST_PROC=/host_proc
+  #    - WAZUH_HOST_SYS=/host_sys
+  #    - WAZUH_HOST_DEV=/host_dev
+  #    - WAZUH_HOST_MEMINFO=/host_proc_meminfo
+  #  volumes:
+  #   - ./wazuh-agent/conf/wazuh-agent.conf:/wazuh-config-mount/etc/ossec.conf
+  #- /proc:/host_proc:ro
+  #    - /sys:/host_sys:ro
+  #    - /dev:/host_dev:ro
+  #    - /var/run/docker.sock:/var/run/docker.sock:ro
+  #    - /proc/meminfo:/host_proc_meminfo:ro
+  #  depends_on:
+  #    - wazuh.manager
+
 volumes:
   wazuh_api_configuration:
   wazuh_etc:
