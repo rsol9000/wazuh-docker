@@ -19,6 +19,10 @@ Incluye base de datos, servidor, interfaz web.
 | **Wazuh Agent**     | 4.14.1  | Agente avanzado para monitoreo del host |
 
 ---
+<img src="./diagramas/wazuh-docker.png" alt="Diagrama Wazuh Docker" width=80%>
+
+---
+
 
 # 🔌 **Mapa de Puertos**
 
@@ -215,3 +219,4 @@ docker-compose down
 - **Agent2** — Mejor capacidad para contenedores, plugins modernos
 
 ---
+
