@@ -29,3 +29,27 @@ systemctl enable wazuh-agent
 systemctl start wazuh-agent
 ````
 Ahora el agente llamado "docker-siua" debería apracer en la interfaz web de Wazuh
+
+Para monitoreo del ambiente docker debemos instalar
+
+```bash
+apt install python3 python3-pip
+````
+```bash
+pip3 install docker==7.1.0 urllib3==1.26.20 requests==2.32.2
+````
+Editamos el archivo de configuración en host del agente 
+
+```bash
+nano /var/ossec/etc/ossec.conf
+````
+Agregamos
+```bash
+<wodle name="docker-listener">
+  <disabled>no</disabled>
+</wodle>
+````
+Reiniciamos el agente wazuh
+```bash
+systemctl restart wazuh-agent
+````
