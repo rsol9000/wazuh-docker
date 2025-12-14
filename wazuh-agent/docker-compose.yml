@@ -1,5 +1,5 @@
 services:
-  wazuh-agent:
+  wazuh.agent:
     container_name: wazuh.agent
     image: wazuh/wazuh-agent:4.14.1
     restart: always
@@ -15,16 +15,16 @@ services:
       - WAZUH_MANAGER_SERVER=wazuh.manager
       - WAZUH_AGENT_NAME=docker-host
       - WAZUH_MANAGER_SERVER_PORT=1514
-      - WAZUH_HOST_PROC=/host_proc
-      - WAZUH_HOST_SYS=/host_sys
-      - WAZUH_HOST_DEV=/host_dev
-      - WAZUH_HOST_MEMINFO=/host_proc_meminfo
+      #- WAZUH_HOST_PROC=/host_proc
+      #- WAZUH_HOST_SYS=/host_sys
+      #- WAZUH_HOST_DEV=/host_dev
+      #- WAZUH_HOST_MEMINFO=/host_proc_meminfo
     volumes:
-      - ./wazuh-agent/conf/wazuh-agent.conf:/wazuh-config-mount/etc/ossec.conf
-      - /proc:/host_proc:ro
-      - /sys:/host_sys:ro
-      - /dev:/host_dev:ro
+      - ./wazuh-agent/conf/ossec.conf:/var/ossec/etc/ossec.conf
+      #- /proc:/host_proc:ro
+      #- /sys:/host_sys:ro
+      #- /dev:/host_dev:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /proc/meminfo:/host_proc_meminfo:ro
+      #- /proc/meminfo:/host_proc_meminfo:ro
     depends_on:
-      - wazuh-manager
+      - wazuh.manager
