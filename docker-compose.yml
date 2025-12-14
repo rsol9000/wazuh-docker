@@ -1,9 +1,9 @@
 # Wazuh App Copyright (C) 2017, Wazuh Inc. (License GPLv2)
 services:
-  wazuh-manager:
-    container_name: wazuh-manager
+  wazuh.manager:
+    container_name: wazuh.manager
     image: wazuh/wazuh-manager:4.14.1
-    hostname: wazuh-manager
+    hostname: wazuh.manager
     restart: always
     deploy:
       resources:
@@ -26,7 +26,7 @@ services:
       - "514:514/udp"
       - "55000:55000"
     environment:
-      - INDEXER_URL=https://wazuh-indexer:9200
+      - INDEXER_URL=https://wazuh.indexer:9200
       - INDEXER_USERNAME=${INDEXER_USERNAME}
       - INDEXER_PASSWORD=${INDEXER_PASSWORD}
       - FILEBEAT_SSL_VERIFICATION_MODE=full
@@ -54,10 +54,10 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
 
-  wazuh-indexer:
-    container_name: wazuh-indexer
+  wazuh.indexer:
+    container_name: wazuh.indexer
     image: wazuh/wazuh-indexer:4.14.1
-    hostname: wazuh-indexer
+    hostname: wazuh.indexer
     restart: always
     ports:
       - "9200:9200"
@@ -90,10 +90,10 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
 
-  wazuh-dashboard:
-    container_name: wazuh-dashboard
+  wazuh.dashboard:
+    container_name: wazuh.dashboard
     image: wazuh/wazuh-dashboard:4.14.1
-    hostname: wazuh-dashboard
+    hostname: wazuh.dashboard
     restart: always
     deploy:
       resources:
@@ -108,7 +108,7 @@ services:
     environment:
       - INDEXER_USERNAME=${INDEXER_USERNAME}
       - INDEXER_PASSWORD=${INDEXER_PASSWORD}
-      - WAZUH_API_URL=https://wazuh-manager
+      - WAZUH_API_URL=https://wazuh.manager
       - DASHBOARD_USERNAME=${DASHBOARD_USERNAME}
       - DASHBOARD_PASSWORD=${DASHBOARD_PASSWORD}
       - API_USERNAME=${API_USERNAME}
@@ -124,10 +124,10 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
     depends_on:
-      - wazuh-indexer
+      - wazuh.indexer
     links:
-      - wazuh-indexer:wazuh-indexer
-      - wazuh-manager:wazuh-manager
+      - wazuh.indexer:wazuh.indexer
+      - wazuh.manager:wazuh.manager
 
   #wazuh.nginx:
   #  image: ${NGINX_IMAGE}
