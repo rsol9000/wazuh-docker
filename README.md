@@ -145,12 +145,15 @@ docker-compose logs -f wazuh.manager
 
 # 🔐 **Habilitar HTTPS**
 
+copiamos los certficados validos por ejemplo de lets encrypt, necesitaremos privkey.pem y fullchain.pem, en la ruta RAIZDELPROYECTO/config/wazuh_indexer_ssl_certs
+
 ```bash
-cp ssl/cert.pem ssl/key.pem ./certificates/
-docker-compose restart zabbix-web
+cp fullchain.pem wazuh.dashboard.pem
+cp privkey.pem wazuh.dashboard-key.pem
+systemctl restart docker
 ```
 
-Requiere certificados válidos (Let’s Encrypt, ACME u otros).
+Requiere certificados válidos (Let’s Encrypt u otros) y una resolución DNS para el subdominio a implementar, en este caso al utilizar certificados reales validos para el dominio *.siua.ac.cr se usa por ejemplo wazhtfg.siua.ac.cr, por tanto esta resolución debe existir en el DNS (Local o Público).
 
 ---
 
